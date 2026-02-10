@@ -1,0 +1,83 @@
+{
+  "name": "ollama-completion",
+  "displayName": "Ollama Autocomplete",
+  "description": "Local AI code completion powered by Ollama",
+  "version": "1.0.0",
+  "publisher": "pejman-hkh",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "AI"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "configuration": {
+      "title": "Ollama Autocomplete",
+      "properties": {
+        "ollama.model": {
+          "type": "string",
+          "default": "qwen2.5-coder:1.5b",
+          "description": "The model to use (e.g., qwen2.5-coder:1.5b or 7b)"
+        },
+        "ollama.apiBaseUrl": {
+          "type": "string",
+          "default": "http://localhost:11434",
+          "description": "The base URL for your Ollama instance"
+        },
+        "ollama.autoSuggest": {
+          "type": "boolean",
+          "default": true,
+          "description": "Should the extension suggest code as you type?"
+        },
+        "ollama.debounceTime": {
+          "type": "number",
+          "default": 1000,
+          "description": "Time in ms to wait after last keystroke before calling Ollama"
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "ollama-completion.trigger",
+        "title": "Ollama: Trigger Suggestion"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "ollama-completion.trigger",
+        "key": "alt+/",
+        "mac": "opt+/",
+        "when": "editorTextFocus && !inlineSuggestionsVisible"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "22.x",
+    "@types/vscode": "^1.80.0",
+    "@vscode/test-cli": "^0.0.12",
+    "@vscode/test-electron": "^2.5.2",
+    "eslint": "^9.39.2",
+    "ts-loader": "^9.5.4",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.54.0",
+    "webpack": "^5.104.1",
+    "webpack-cli": "^6.0.1"
+  }
+}
