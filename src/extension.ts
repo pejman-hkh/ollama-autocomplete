@@ -48,10 +48,10 @@ export function activate(context: vscode.ExtensionContext) {
                     new vscode.Position(Math.min(document.lineCount - 1, position.line + suffixWindow), 0)
                 ));
                 
-                const prompt = `<|fim_prefix|>${prefix}<|fim_suffix|>${suffix}<|fim_middle|>`;
-
                 const model = config.get<string>('model') || 'qwen2.5-coder:1.5b';
                 const baseUrl = config.get<string>('apiBaseUrl') || 'http://localhost:11434';
+
+                const prompt = `<|fim_prefix|>${prefix}<|fim_suffix|>${suffix.trimStart()}<|fim_middle|>`;
 
                 const response = await fetch(`${baseUrl}/api/generate`, {
                     method: 'POST',
