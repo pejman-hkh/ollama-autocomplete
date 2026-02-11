@@ -38,6 +38,16 @@
           "type": "number",
           "default": 1000,
           "description": "Time in ms to wait after last keystroke before calling Ollama"
+        },
+        "ollama.prefixWindow": {
+          "type": "number",
+          "default": 100,
+          "description": "Number of lines to include before the cursor (Prefix)"
+        },
+        "ollama.suffixWindow": {
+          "type": "number",
+          "default": 50,
+          "description": "Number of lines to include after the cursor (Suffix)"
         }
       }
     },

@@ -35,9 +35,19 @@ export function activate(context: vscode.ExtensionContext) {
             statusBarItem.text = "$(sync~spin) Ollama thinking...";
 
             try {
-                const prefix = document.getText(new vscode.Range(Math.max(0, position.line - 100), 0, position.line, position.character));
-                const suffix = document.getText(new vscode.Range(position, document.lineAt(Math.min(document.lineCount - 1, position.line + 50)).range.end));
+                const prefixWindow = config.get<number>('prefixWindow') || 100;
+                const suffixWindow = config.get<number>('suffixWindow') || 50;
 
+                const prefix = document.getText(new vscode.Range(
+                    new vscode.Position(Math.max(0, position.line - prefixWindow), 0),
+                    position
+                ));
+
+                const suffix = document.getText(new vscode.Range(
+                    position,
+                    new vscode.Position(Math.min(document.lineCount - 1, position.line + suffixWindow), 0)
+                ));
+                
                 const prompt = `<|fim_prefix|>${prefix}<|fim_suffix|>${suffix}<|fim_middle|>`;
 
                 const model = config.get<string>('model') || 'qwen2.5-coder:1.5b';
