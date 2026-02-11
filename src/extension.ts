@@ -47,7 +47,7 @@ export function activate(context: vscode.ExtensionContext) {
                     position,
                     new vscode.Position(Math.min(document.lineCount - 1, position.line + suffixWindow), 0)
                 ));
-                
+
                 const model = config.get<string>('model') || 'qwen2.5-coder:1.5b';
                 const baseUrl = config.get<string>('apiBaseUrl') || 'http://localhost:11434';
 
@@ -63,7 +63,9 @@ export function activate(context: vscode.ExtensionContext) {
                         options: {
                             num_predict: 128,
                             temperature: 0,
-                            stop: ["<|file_separator|>", "<|fim_prefix|>", "<|fim_suffix|>", "<|fim_middle|>", "```", "\n\n"]
+                            repeat_penalty: 1.2,
+                            presence_penalty: 0.1,
+                            stop: ["<|file_separator|>", "<|fim_prefix|>", "<|fim_suffix|>", "<|fim_middle|>", "```"]
                         }
                     }),
                     signal: AbortSignal.timeout(5000)
